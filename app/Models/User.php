@@ -9,9 +9,14 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
+use Filament\Panel;
+use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Filament\Models\Contracts\HasTenants;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasTenants, FilamentUser
 {
     use HasApiTokens;
 
@@ -21,6 +26,21 @@ class User extends Authenticatable
     use HasTeams;
     use Notifiable;
     use TwoFactorAuthenticatable;
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
+    }
+
+    public function getTenants(Panel $panel): Collection
+    {
+        return $this->allTeams();
+    }
+
+    public function canAccessTenant(Model $tenant): bool
+    {
+        return $this->belongsToTeam($tenant);
+    }
 
     /**
      * The attributes that are mass assignable.
