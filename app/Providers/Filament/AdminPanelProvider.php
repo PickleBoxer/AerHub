@@ -28,6 +28,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Event;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Laravel\Jetstream\Features;
+use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -41,6 +42,7 @@ class AdminPanelProvider extends PanelProvider
             ->registration()
             ->passwordReset()
             // ->emailVerification()
+            // ->profile()
             ->viteTheme('resources/css/app.css')
             ->colors([
                 'primary' => Color::Gray,
@@ -65,6 +67,7 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
+            ->plugin(FilamentSpatieLaravelHealthPlugin::make())
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

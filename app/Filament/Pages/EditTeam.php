@@ -11,6 +11,8 @@ class EditTeam extends EditTenantProfile
 
     protected static ?int $navigationSort = 2;
 
+    protected static ?string $slug = 'team-settings';
+
     public static function getLabel(): string
     {
         return __('Team Settings');
