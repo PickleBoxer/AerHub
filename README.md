@@ -64,3 +64,41 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Installing Dependencies and Setting Up Your Application
+
+If you're working with a Laravel project that was initially created by someone else, the Composer dependencies (including Sail) won't be installed automatically after cloning the repository. Follow these steps:
+
+1. Install the Composer dependencies using a Docker container with PHP and Composer:
+   
+   ```bash
+   docker run --rm \
+       -u "$(id -u):$(id -g)" \
+       -v "$(pwd):/var/www/html" \
+       -w /var/www/html \
+       laravelsail/php84-composer:latest \
+       composer install --ignore-platform-reqs
+   ```
+   
+   Replace "php84" with your PHP version (80, 81, 82, 83, or 84).
+
+2. Copy the example environment file to create your own:
+   
+   ```bash
+   cp .env.example .env
+   ```
+
+3. Generate the application key:
+   
+   ```bash
+   php artisan key:generate
+   ```
+
+4. Run the database migrations:
+   
+   ```bash
+   php artisan migrate
+   ```
+
+These commands ensure that your application is configured correctly and ready for further development.
+
