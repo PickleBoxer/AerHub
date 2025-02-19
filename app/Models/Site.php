@@ -14,4 +14,9 @@ class Site extends Model
         'prestashop_url',
         'prestashop_api_key',
     ];
+
+    // Automatically encrypts and decrypts the API key
+    protected $casts = [
+        'prestashop_api_key' => 'encrypted',
+    ];
 }
