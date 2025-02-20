@@ -1,4 +1,6 @@
 <?php
+
+namespace App\Services;
 /*
 * 2007-2022 PrestaShop SA and Contributors
 *
@@ -525,6 +527,6 @@ class PrestaShopWebservice
 /**
  * @package PrestaShopWebservice
  */
-class PrestaShopWebserviceException extends Exception
+class PrestaShopWebserviceException extends  \Exception
 {
 }
