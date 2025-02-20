@@ -12,14 +12,13 @@ class PrestaShopService
      *
      * @param string $baseUrl The base URL of the PrestaShop site.
      * @param string $apiKey  The PrestaShop API key.
-     * @param array  $options Additional options for the API request.
-     * @return string Comma‐separated list of available endpoints or error text.
+     * @return string Comma-separated list of available endpoints or error text.
      */
-    public function fetchAvailableEndpoints (string $baseUrl, string $apiKey, array $options = [])
+    public function fetchAvailableEndpoints(string $baseUrl, string $apiKey)
     {
         // Always use the API URL based on baseUrl.
         $url = rtrim($baseUrl, '/') . '/api';
-        $requestOptions = array_merge(['url' => $url], $options);
+        $requestOptions = ['url' => $url];
 
         try {
             $ps = new PrestaShopWebservice($baseUrl, $apiKey, false);

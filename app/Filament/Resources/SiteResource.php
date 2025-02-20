@@ -56,8 +56,7 @@ class SiteResource extends Resource
                         return app(\App\Services\PrestaShopService::class)
                             ->fetchAvailableEndpoints (
                                 $record->prestashop_url,
-                                $record->prestashop_api_key,
-                                []
+                                $record->prestashop_api_key
                             );
                     }),
             ])
@@ -69,7 +68,7 @@ class SiteResource extends Resource
                     ->label('Sync API')
                     ->action(function (Site $record) {
                         $result = app(\App\Services\PrestaShopService::class)
-                            ->fetchAvailableEndpoints ($record->prestashop_url, $record->prestashop_api_key, []);
+                            ->fetchAvailableEndpoints ($record->prestashop_url, $record->prestashop_api_key);
 
                         if (str_starts_with($result, 'Error:') || $result === 'None' || empty(trim($result))) {
                             Notification::make()
