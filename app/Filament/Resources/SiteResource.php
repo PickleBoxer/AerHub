@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Notifications\Notification;
-use Barryvdh\Debugbar\Facade as Debugbar;
+// use Barryvdh\Debugbar\Facade as Debugbar;
 
 class SiteResource extends Resource
 {
@@ -53,28 +53,12 @@ class SiteResource extends Resource
                 TextColumn::make('endpoints')
                     ->label('Endpoints')
                     ->getStateUsing(function (Site $record) {
-                        try {
-                            $service = app(\App\Services\PrestaShopService::class);
-                            $apiData = $service->fetchApiData($record->prestashop_url, $record->prestashop_api_key);
-
-                            Debugbar::info($apiData);
-
-                            if (!empty($apiData) && isset($apiData['api']) && is_array($apiData['api'])) {
-                                // Filter out the "@attributes" element.
-                                $endpoints = array_filter(
-                                    $apiData['api'],
-                                    function ($key) {
-                                    return $key !== '@attributes';
-                                },
-                                    ARRAY_FILTER_USE_KEY
-                                );
-                                // Return a comma-separated list of endpoint names.
-                                return implode(', ', array_keys($endpoints));
-                            }
-                        } catch (\Exception $e) {
-                            return 'Error: ' . $e->getMessage();
-                        }
-                        return 'None';
+                        return app(\App\Services\PrestaShopService::class)
+                            ->fetchAvailableEndpoints (
+                                $record->prestashop_url,
+                                $record->prestashop_api_key,
+                                []
+                            );
                     }),
             ])
             ->filters([
@@ -84,34 +68,20 @@ class SiteResource extends Resource
                 Tables\Actions\Action::make('sync')
                     ->label('Sync API')
                     ->action(function (Site $record) {
-                        try {
-                            $service = app(\App\Services\PrestaShopService::class);
-                            $apiData = $service->fetchApiData($record->prestashop_url, $record->prestashop_api_key);
+                        $result = app(\App\Services\PrestaShopService::class)
+                            ->fetchAvailableEndpoints ($record->prestashop_url, $record->prestashop_api_key, []);
 
-                            if (!empty($apiData) && isset($apiData['api']) && is_array($apiData['api'])) {
-                                // Filter out the "@attributes" element.
-                                $endpoints = array_filter($apiData['api'], function ($key) {
-                                    return $key !== '@attributes';
-                                }, ARRAY_FILTER_USE_KEY);
-
-                                $endpointCount = count($endpoints);
-                                Notification::make()
-                                    ->title('API Sync Successful')
-                                    ->body("Found {$endpointCount} available API endpoint" . ($endpointCount !== 1 ? 's' : '') . '.')
-                                    ->success()
-                                    ->send();
-                            } else {
-                                Notification::make()
-                                    ->title('API Sync Failed')
-                                    ->body('No API data retrieved or the response structure is unexpected.')
-                                    ->danger()
-                                    ->send();
-                            }
-                        } catch (\Exception $e) {
+                        if (str_starts_with($result, 'Error:') || $result === 'None' || empty(trim($result))) {
                             Notification::make()
-                                ->title('API Sync Exception')
-                                ->body('Error: ' . $e->getMessage())
+                                ->title('API Sync Failed')
+                                ->body($result)
                                 ->danger()
+                                ->send();
+                        } else {
+                            Notification::make()
+                                ->title('API Sync Successful')
+                                ->body("Available API endpoints: " . $result)
+                                ->success()
                                 ->send();
                         }
                     })

@@ -99,10 +99,15 @@ class AdminPanelProvider extends PanelProvider
                 ->tenant(Team::class)
                 ->tenantRegistration(CreateTeam::class)
                 ->tenantProfile(EditTeam::class)
+                ->tenantMenuItems([
+                    'profile' => MenuItem::make()->visible(fn () => auth()->user()->hasRole('admin')),
+                    'register' => MenuItem::make()->visible(fn () => auth()->user()->hasRole('admin')),
+                ])
                 ->userMenuItems([
                     MenuItem::make()
                         ->label(fn () => __('Team Settings'))
                         ->icon('heroicon-o-cog-6-tooth')
+                        ->visible(fn () => auth()->check() && auth()->user()->hasRole('admin'))
                         ->url(fn () => $this->shouldRegisterMenuItem()
                             ? url(EditTeam::getUrl())
                             : url($panel->getPath())),
