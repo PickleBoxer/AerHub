@@ -15,6 +15,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Models\Contracts\HasTenants;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasTenants, FilamentUser
 {
@@ -26,6 +27,7 @@ class User extends Authenticatable implements HasTenants, FilamentUser
     use HasTeams;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use HasRoles;
 
     public function canAccessPanel(Panel $panel): bool
     {

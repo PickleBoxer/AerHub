@@ -14,7 +14,8 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.0",
-        "shuvroroy/filament-spatie-laravel-health": "^2.3"
+        "shuvroroy/filament-spatie-laravel-health": "^2.3",
+        "spatie/laravel-permission": "^6.15"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
