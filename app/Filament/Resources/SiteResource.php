@@ -53,6 +53,11 @@ class SiteResource extends Resource
                 TextColumn::make('endpoints')
                     ->label('Endpoints')
                     ->getStateUsing(function (Site $record) {
+                        // dd(app(\App\Services\PrestaShopService::class)
+                        //     ->fetchEmployees (
+                        //         $record->prestashop_url,
+                        //         $record->prestashop_api_key
+                        //     ));
                         return app(\App\Services\PrestaShopService::class)
                             ->fetchAvailableEndpoints (
                                 $record->prestashop_url,
