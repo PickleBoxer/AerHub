@@ -9,11 +9,27 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				// "mikestead.dotenv",
-				// "amiralizadeh9480.laravel-extra-intellisense",
-				// "ryannaddy.laravel-artisan",
-				// "onecentlin.laravel5-snippets",
-				// "onecentlin.laravel-blade"
+				"BracketPairColorDLW.bracket-pair-color-dlw",
+				"streetsidesoftware.code-spell-checker",
+				"damms005.devdb",
+				"EditorConfig.EditorConfig",
+				"tombonnike.vscode-status-bar-format-toggle",
+				"oderwat.indent-rainbow",
+				"Zignd.html-css-class-completion",
+				"laravel.vscode-laravel",
+				"shufo.vscode-blade-formatter",
+				"onecentlin.laravel-blade",
+				"amiralizadeh9480.laravel-extra-intellisense",
+				"codingyu.laravel-goto-view",
+				"naoray.laravel-goto-components",
+				"DEVSENSE.phptools-vscode",
+				"xdebug.php-debug",
+				"zobo.php-intellisense",
+				"MehediDracula.php-namespace-resolver",
+				"esbenp.prettier-vscode",
+				"inferrinizzard.prettier-sql-vscode",
+				"bradlc.vscode-tailwindcss",
+				"Gruntfuggly.todo-tree"
 			],
 			"settings": {}
 		}
