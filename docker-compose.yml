@@ -21,12 +21,20 @@ services:
             - '.:/var/www/html'
         networks:
             - sail
+            #- shared
         depends_on:
             - mysql
             - redis
             - meilisearch
             - mailpit
             - selenium
+        #labels:
+            #- traefik.enable=true
+            #- traefik.http.routers.test-laravel-app-secure.rule=Host(`api.laravel-app.docker`)
+            #- traefik.http.routers.test-laravel-app-secure.entrypoints=websecure
+            #- traefik.http.routers.test-laravel-app-secure.tls=true
+            #- traefik.http.services.test-laravel-app-secure.loadbalancer.server.port=80
+            #- traefik.docker.network=network.ss
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -92,6 +100,13 @@ services:
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
         networks:
             - sail
+            #- shared
+        #labels:
+            #- traefik.http.routers.mail-laravel-app-secure.rule=Host(`mail.laravel-app.docker`)
+            #- traefik.http.routers.mail-laravel-app-secure.entrypoints=websecure
+            #- traefik.http.routers.mail-laravel-app-secure.tls=true
+            #- traefik.http.services.mail-laravel-app-secure.loadbalancer.server.port=8025
+            #- traefik.docker.network=network.ss
     selenium:
         image: selenium/standalone-chromium
         extra_hosts:
@@ -103,6 +118,9 @@ services:
 networks:
     sail:
         driver: bridge
+    #shared:
+        #external: true
+        #name: network.ss
 volumes:
     sail-mysql:
         driver: local

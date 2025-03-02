@@ -14,8 +14,8 @@ use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Models\Contracts\HasTenants;
-use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements HasTenants, FilamentUser
 {
