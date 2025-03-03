@@ -21,6 +21,7 @@ services:
             - '.:/var/www/html'
         networks:
             - sail
+            - shared_network
             #- shared
         depends_on:
             - mysql
@@ -118,6 +119,8 @@ services:
 networks:
     sail:
         driver: bridge
+    shared_network:
+        external: true
     #shared:
         #external: true
         #name: network.ss
